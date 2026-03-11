@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        padding: 20px;
+        background: #f0f0f0;
+        color: #111;
+        line-height: 1.5;
+      }
+
+      .form-container {
+        max-width: 800px;
+        margin: 0 auto 30px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-container h2 {
+        margin-top: 0;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .print-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 12px 30px;
+        font-size: 18px;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .print-btn:hover {
+        background: #0055aa;
+      }
+
+      /* Certificate Styles */
+      #certificate {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        padding: 40px 50px;
+        box-sizing: border-box;
+      }
+
+      .letterhead {
+        display: flex;
+        justify-content: space-between;
+        align-itemr: center;
+        margin-bottom: 50px;
+      }
+
+      .logo-side {
+        flex: 0 0 40%;
+        text-align: left;
+      }
+
+      .logo-img {
+        max-width: 220px;
+        height: auto;
+      }
+
+      .company-info-side {
+        flex: 0 0 55%;
+        text-align: right;
+        font-size: 13px;
+        color: #444;
+      }
+
+      .company-info {
+        font-weight: bold;
+      }
+
+      .tagline {
+        font-style: italic;
+        color: #722f37;
+      }
+
+      .date {
+        text-align: right;
+        font-size: 15px;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 22px;
+        margin: 20px 0 25px;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+      }
+
+      .content {
+        font-size: 15.5px;
+        text-align: justify;
+      }
+      .content p {
+        margin: 0;
+      }
+      .content strong {
+        font-weight: 600;
+      }
+
+      .signature-block {
+        margin-top: 90px;
+        text-align: left;
+      }
+
+      .signature-name {
+        font-size: 17px;
+        font-weight: bold;
+        margin-top: 40px;
+      }
+
+      .signature-designation,
+      .signature-email {
+        font-size: 14.5px;
+        color: #333;
+      }
+
+      .signature-line {
+        width: 220px;
+        height: 1.5px;
+        background: #000;
+        margin: 10px 0;
+      }
+
+      .note {
+        margin-top: 60px;
+        font-size: 13px;
+        color: #555;
+        font-style: italic;
+        border-top: 1px solid #ddd;
+        padding-top: 12px;
+        text-align: center;
+      }
+      .sign_image_div {
+        width: 220px;
+        height: 70px;
+      }
+      .sign_image_div img {
+        width: 100%;
+        height: 100%;
+      }
+      @media print {
+        body {
+          background: white;
+        }
+        .form-container,
+        .print-btn {
+          display: none !important;
+        }
+        #certificate {
+          box-shadow: none;
+          margin: 0;
+          width: 100%;
+          padding: 35px 45px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Generate Experience Certificate - Texa Innovates</h2>
+
+      <div class="form-group">
+        <label>Date (e.g., March 11, 2026):</label>
+        <input
+          type="text"
+          id="date"
+          value="March 11, 2026"
+          oninput="updateCertificate()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Employee Name with Prefix (e.g., Mr. Akash):</label>
+        <input
+          type="text"
+          id="name"
+          value="Mr. Akash"
+          oninput="updateCertificate()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>From Date (e.g., January 01, 2024):</label>
+        <input
+          type="text"
+          id="fromDate"
+          value="January 01, 2024"
+          oninput="updateCertificate()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>To Date (e.g., March 10, 2026):</label>
+        <input
+          type="text"
+          id="toDate"
+          value="March 10, 2026"
+          oninput="updateCertificate()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Designation (e.g., AI Solutions Engineer):</label>
+        <input
+          type="text"
+          id="designation"
+          value="AI Solutions Engineer"
+          oninput="updateCertificate()"
+        />
+      </div>
+
+      <button class="print-btn" onclick="printCertificate()">
+        Print Certificate
+      </button>
+    </div>
+
+    <!-- Certificate Preview -->
+    <div id="certificate">
+      <div class="letterhead">
+        <div class="logo-side">
+          <!-- Replace this src with your actual logo file after downloading from https://texainnovates.com/ -->
+          <img
+            src="assets/img/logo.png"
+            alt="Texa Innovates Logo"
+            class="logo-img"
+          />
+          <!-- Recommended: Download logo → save as texa-logo.png → change src="texa-logo.png" -->
+        </div>
+        <div class="company-info-side">
+          <div class="company-info">Texa Innovates</div>
+          <div class="tagline">
+            Innovative Solutions for Tomorrow’s Challenges
+          </div>
+          <div class="company-info">Coimbatore, Tamil Nadu, India</div>
+          <div class="company-info">
+            Email: info@texainnovates.com | Website: www.texainnovates.com
+          </div>
+          <div class="company-info">
+            Phone: +91 95855 44887 | +91 99445 57561
+          </div>
+        </div>
+      </div>
+
+      <div class="date" id="previewDate">
+        <strong>Date: March 11, 2026</strong>
+      </div>
+
+      <h1>To WhoMroever It May Concern</h1>
+
+      <div class="content-wrapper">
+        <div class="content">
+          <p>
+            This is to certify that
+            <strong id="previewName">Mr. Akash</strong> was working with Texa
+            Innovates from <strong id="previewFrom">January 01, 2024</strong> to
+            <strong id="previewTo">March 10, 2026</strong>. Her designation at
+            the time of leaving Texa Innovates was
+            <strong id="previewDesignation">AI Solutions Engineer</strong>.
+          </p>
+          <p>We wish her all the best for her future endeavours.</p>
+        </div>
+      </div>
+
+      <div class="signature-block">
+        <div class="sign_image_div">
+          <img src="assets/img/logo.png" alt="" />
+        </div>
+        <div class="signature-line"></div>
+        <!-- Add your name / Managing Director name here if known; change as needed -->
+        <div class="signature-name">Hariharan S</div>
+        <!-- Example; update to actual MD/Director -->
+        <div class="signature-designation">Founder / Managing Director</div>
+        <div class="signature-email">info@texainnovates.com</div>
+      </div>
+
+      <div class="note">
+        Note: Texa Innovates specializes in AI, Machine Vision, Automation, and
+        Smart Manufacturing Solutions for Textile and Industrial sectors.
+      </div>
+    </div>
+
+    <script>
+      function updateCertificate() {
+        const dateValue = document.getElementById("date").value.trim();
+        document.getElementById("previewDate").innerHTML =
+          `Date: <strong> ${dateValue}</strong>`;
+
+        document.getElementById("previewName").innerText = document
+          .getElementById("name")
+          .value.trim();
+        document.getElementById("previewFrom").innerText = document
+          .getElementById("fromDate")
+          .value.trim();
+        document.getElementById("previewTo").innerText = document
+          .getElementById("toDate")
+          .value.trim();
+        document.getElementById("previewDesignation").innerText = document
+          .getElementById("designation")
+          .value.trim();
+      }
+
+      function printCertificate() {
+        window.print();
+      }
+
+      // Initial update
+      updateCertificate();
+    </script>
+  </body>
+</html>

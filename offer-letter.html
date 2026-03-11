@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+        color: #000;
+      }
+
+      .controls {
+        max-width: 900px;
+        margin: 0 auto 30px auto;
+        padding: 20px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls label {
+        display: block;
+        margin: 12px 0 4px;
+        font-weight: bold;
+      }
+
+      .controls input,
+      .controls textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .controls .comp-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .controls button {
+        margin-top: 20px;
+        padding: 10px 24px;
+        font-size: 16px;
+        background: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .controls button:hover {
+        background: #1557b0;
+      }
+
+      .letter-container {
+        max-width: 210mm;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+
+      .letter-page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 22mm 20mm 25mm 22mm;
+        box-sizing: border-box;
+        background: white;
+        font-size: 12pt;
+        line-height: 1.38;
+      }
+
+      .company {
+        text-align: center;
+        font-size: 15pt;
+        font-weight: bold;
+        margin-bottom: 1mm;
+      }
+
+      .company-address {
+        text-align: center;
+        font-size: 11pt;
+        line-height: 1.3;
+        margin-bottom: 14mm;
+      }
+
+      .date {
+        text-align: right;
+        margin-bottom: 10mm;
+      }
+      .recipient {
+        line-height: 1.4;
+        margin-bottom: 7mm;
+      }
+      .subject {
+        font-weight: bold;
+        margin: 7mm 0 7mm 0;
+      }
+      .salutation {
+        margin: 8mm 0 6mm 0;
+        font-weight: bold;
+      }
+
+      p {
+        margin: 5mm 0;
+        text-align: justify;
+      }
+
+      .annexure-list {
+        margin: 4mm 0 10mm 30px;
+        line-height: 1.5;
+      }
+
+      .closing {
+        margin: 12mm 0 4mm 0;
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid #333;
+        margin: 28mm 0 24mm 0;
+      }
+
+      .annexure-title {
+        text-align: center;
+        font-size: 13pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0 0 14mm 0;
+        line-height: 1.3;
+      }
+
+      table.comp {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10mm 0 6mm 0;
+        font-size: 11pt;
+      }
+
+      .comp th,
+      .comp td {
+        border: 1px solid black;
+        padding: 1.5mm 3mm;
+        text-align: left;
+      }
+
+      .comp .right {
+        text-align: right;
+      }
+      .comp .boldrow {
+        font-weight: bold;
+        background: #f9f9f9;
+      }
+
+      .note {
+        margin: 10mm 0 18mm 0;
+        font-size: 10.5pt;
+      }
+
+      .accept-block {
+        margin-top: 16mm;
+        padding-top: 8mm;
+        border-top: 1px solid black;
+      }
+
+      .sig-line {
+        display: inline-block;
+        width: 260px;
+        border-bottom: 1px solid black;
+        margin: 0 0 0 12px;
+      }
+
+      .date-line {
+        display: inline-block;
+        width: 140px;
+        border-bottom: 1px solid black;
+        margin: 0 0 0 48px;
+      }
+      .logo_div {
+        text-align: center;
+        margin-bottom: 6mm;
+        width: 100%;
+        height: 61px;
+        display: flex;
+        justify-content: center;
+      }
+      .logo_div img {
+        width: auto;
+        height: 100%;
+      }
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+          margin: 0;
+        }
+        .controls {
+          display: none !important;
+        }
+        .letter-container {
+          box-shadow: none;
+          max-width: none;
+          margin: 0;
+        }
+        .letter-page {
+          margin: 0;
+          padding: 22mm 20mm 25mm 22mm;
+          box-shadow: none;
+        }
+        .letter-page + .letter-page {
+          page-break-before: always;
+        }
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <h3 style="margin-top: 0">Personal & Offer Details</h3>
+
+      <label>Offer Date</label>
+      <input type="text" id="offerDate" value="19 Dec 2025" />
+
+      <label>Candidate Name</label>
+      <input type="text" id="candidateName" value="Akash PT" />
+
+      <label>Candidate Address</label>
+      <textarea id="candidateAddress">
+7/9, Muthu Nagar, Ellis Nagar Post,
+Dharapuram – 638656</textarea
+      >
+
+      <label>Position</label>
+      <input type="text" id="position" value="Senior Front-end Developer" />
+
+      <label>Joining Date (effective ...)</label>
+      <input type="text" id="joiningDate" value="02 Feb 2026" />
+
+      <label>Acceptance Deadline (on or before ...)</label>
+      <input type="text" id="acceptByDate" value="01 Feb 2026" />
+
+      <h3>Compensation Details</h3>
+
+      <div class="comp-row">
+        <label>Basic Salary</label>
+        <input type="text" id="basicMonth" value="11000" />
+        <input type="text" id="basicYear" value="132000" />
+      </div>
+
+      <div class="comp-row">
+        <label>HRA</label>
+        <input type="text" id="hraMonth" value="4000" />
+        <input type="text" id="hraYear" value="48000" />
+      </div>
+
+      <div class="comp-row">
+        <label>Leave Travel Allowance</label>
+        <input type="text" id="ltaMonth" value="2000" />
+        <input type="text" id="ltaYear" value="24000" />
+      </div>
+
+      <div class="comp-row">
+        <label>Special Pay</label>
+        <input type="text" id="specialMonth" value="3000" />
+        <input type="text" id="specialYear" value="36000" />
+      </div>
+
+      <div class="comp-row">
+        <label>Gross</label>
+        <input type="text" id="grossMonth" value="20000" />
+        <input type="text" id="grossYear" value="240000" />
+      </div>
+
+      <div class="comp-row">
+        <label>Fixed</label>
+        <input type="text" id="fixedMonth" value="20000" />
+        <input type="text" id="fixedYear" value="240000" />
+      </div>
+
+      <div class="comp-row">
+        <label>Total Target Compensation</label>
+        <input type="text" id="totalMonth" value="20000" />
+        <input type="text" id="totalYear" value="240000" />
+      </div>
+
+      <button onclick="updateLetter()">Update Letter</button>
+      <button
+        onclick="printLetter()"
+        style="margin-left: 15px; background: #34a853"
+      >
+        Print / Save as PDF
+      </button>
+    </div>
+
+    <div class="letter-container">
+      <!-- Page 1 -->
+      <div class="letter-page" id="page1">
+        <div class="logo_div">
+          <img src="assets/img/logo.png" alt="" />
+        </div>
+        <div class="company">Texa Innovates</div>
+        <div class="company-address">
+          No.8/272/8, Pothigai Garden Extension, Veerapandi,<br />
+          Coimbatore – 641110
+        </div>
+
+        <div class="date" id="dateField">
+          <strong>19 Dec 2025</strong>
+        </div>
+
+        <div class="recipient" id="recipientField">
+          Akash PT<br />
+          7/9, Muthu Nagar, Ellis Nagar Post,<br />
+          Dharapuram – 638656
+        </div>
+
+        <div class="subject">
+          <strong>Subject: Offer For Employment</strong>
+        </div>
+
+        <div class="salutation">
+          Dear <span id="nameSalutation"><strong>Akash PT</strong></span
+          >,
+        </div>
+
+        <p>
+          <strong>Congratulations!!</strong> We have all enjoyed interacting and
+          getting to know you over the last few weeks. We are pleased to offer
+          you the full-time position of “<span id="pos1"
+            ><strong>Senior Front-end Developer</strong></span
+          >”. You will be based out of our Coimbatore office, effective
+          <span id="join1"><strong>02 Feb 2026</strong></span
+          >.
+        </p>
+
+        <p>
+          At Texa Innovates, we believe in fostering a positive and energetic
+          work culture. We are committed to your growth and development.
+        </p>
+
+        <p>Looking forward to welcoming you aboard!</p>
+
+        <p>
+          The following attachments form an integral part of our offer for
+          employment:
+        </p>
+
+        <div class="annexure-list">
+          Annexure A Compensation Structure Details<br />
+          Annexure B Terms and Conditions of Employment
+        </div>
+
+        <p>
+          Kindly review the attachments carefully and communicate your
+          acceptance of this offer, by returning to us the Annexures A and B,
+          duly signed on or before
+          <span id="acceptBy1"><strong>01 Feb 2026</strong></span
+          >.
+        </p>
+
+        <p>We look forward to having you aboard soon!</p>
+
+        <div class="closing">Sincerely,</div>
+        <div>HR Manager<br />Texa Innovates</div>
+
+        <div style="font-style: italic">
+          Attachments: Annexure A and Annexure B
+        </div>
+      </div>
+
+      <!-- Page 2 - Annexure A -->
+      <div class="letter-page" id="page2">
+        <div class="annexure-title">
+          Annexure A<br /><strong>COMPENSATION STRUCTURE</strong>
+        </div>
+
+        <p>
+          <strong>Name:</strong>
+          <span id="nameA"><strong>Akash PT</strong></span>
+        </p>
+        <p style="margin-bottom: 10mm">
+          <strong>Designation:</strong>
+          <span id="posA"><strong>Senior Front-end Developer</strong></span>
+        </p>
+
+        <table class="comp" id="compTable">
+          <tr>
+            <th>Component</th>
+            <th class="right">Per Month (INR)</th>
+            <th class="right">Per Annum (INR)</th>
+          </tr>
+          <tr>
+            <td><strong>Basic Salary</strong></td>
+            <td class="right" id="basicM">11000</td>
+            <td class="right" id="basicY">132000</td>
+          </tr>
+          <tr>
+            <td><strong>HRA</strong></td>
+            <td class="right" id="hraM">4000</td>
+            <td class="right" id="hraY">48000</td>
+          </tr>
+          <tr>
+            <td><strong>Leave Travel Allowance</strong></td>
+            <td class="right" id="ltaM">2000</td>
+            <td class="right" id="ltaY">24000</td>
+          </tr>
+          <tr>
+            <td><strong>Special Pay</strong></td>
+            <td class="right" id="specialM">3000</td>
+            <td class="right" id="specialY">36000</td>
+          </tr>
+          <tr class="boldrow">
+            <td><strong>Gross</strong></td>
+            <td class="right" id="grossM">20000</td>
+            <td class="right" id="grossY">240000</td>
+          </tr>
+          <tr class="boldrow">
+            <td><strong>Fixed</strong></td>
+            <td class="right" id="fixedM">20000</td>
+            <td class="right" id="fixedY">240000</td>
+          </tr>
+          <tr class="boldrow">
+            <td><strong>Total Target Compensation</strong></td>
+            <td class="right" id="totalM">20000</td>
+            <td class="right" id="totalY">240000</td>
+          </tr>
+        </table>
+
+        <div class="note">
+          <strong>Note:</strong><br />
+          1. <strong>Medical Insurance</strong> for you<br />
+          2. <strong>Performance Incentive</strong> is based on company
+          achieving its financial year target and individual performance.<br />
+          3. <strong>Employee Stock Options</strong> will be based on the
+          approval from board.
+        </div>
+
+        <div class="accept-block">
+          <strong>Acceptance of Compensation:</strong><br /><br />
+
+          By signing and dating below, I
+          <span id="nameAcceptA"><strong>Akash PT</strong></span> , confirm that
+          I am accepting the Compensation offered voluntarily and without any
+          duress or undue influence by the Company or anyone else; I have asked
+          any questions needed for me to understand the Compensation Structure
+          and fully understand them; and I accept that the Compensation offered
+          to me is fair and adequate in respect of my Employment in accordance
+          with associated terms and conditions.<br /><br />
+
+          Signature: <span class="sig-line"></span> Date:
+          <span class="date-line"></span>
+        </div>
+      </div>
+
+      <!-- Page 3 - Annexure B -->
+      <div class="letter-page" id="page3">
+        <div class="annexure-title">
+          Annexure B<br /><strong>TERMS & CONDITIONS OF EMPLOYMENT</strong>
+        </div>
+
+        <ol
+          style="padding-left: 24px; margin: 10mm 0 14mm 0; line-height: 1.45"
+        >
+          <li>
+            <strong>Security & Confidentiality:</strong> You agree to maintain
+            strict confidentiality of all information related to the company.
+          </li>
+          <li>
+            <strong>Probation Period:</strong> You will undergo a
+            <strong>probation period of 3 months</strong> from your date of
+            joining.
+          </li>
+          <li>
+            <strong>Work Product:</strong> All work performed during your
+            employment remains the property of the company.
+          </li>
+          <li>
+            <strong>Termination:</strong> Either party may terminate employment
+            by giving <strong>30 days’ notice</strong> in writing.
+          </li>
+          <li>
+            <strong>Leave Policy:</strong> Leave entitlements and holidays will
+            be as per company policy.
+          </li>
+          <li>
+            <strong>Non-solicitation:</strong> For
+            <strong>12 months</strong> post exit, you shall not solicit or hire
+            company employees or clients.
+          </li>
+          <li>
+            <strong>Code of Conduct:</strong> Professional behavior and
+            compliance with company rules is mandatory.
+          </li>
+          <li>
+            <strong>Return of Property:</strong> All company property must be
+            returned upon termination or resignation.
+          </li>
+          <li>
+            <strong>Background Checks:</strong> Your employment is subject to
+            verification of your credentials.
+          </li>
+          <li>
+            <strong>Acceptance:</strong> You confirm understanding and agreement
+            to all clauses mentioned above.
+          </li>
+        </ol>
+
+        <div class="accept-block">
+          <strong>Acceptance of Terms & Conditions:</strong><br /><br />
+
+          By signing and dating below, I
+          <span id="nameAcceptB"><strong>Akash PT</strong></span> confirm that I
+          am executing this Agreement voluntarily and without any duress or
+          undue influence by the Company or anyone else; and I have carefully
+          read the terms & conditions and agree to adhere to the same.<br /><br />
+
+          Signature: <span class="sig-line"></span> Date:
+          <span class="date-line"></span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateLetter() {
+        const offerDate = document.getElementById("offerDate").value.trim();
+        const name = document.getElementById("candidateName").value.trim();
+        const address = document
+          .getElementById("candidateAddress")
+          .value.trim()
+          .replace(/\n/g, "<br>");
+        const position = document.getElementById("position").value.trim();
+        const joiningDate = document.getElementById("joiningDate").value.trim();
+        const acceptByDate = document
+          .getElementById("acceptByDate")
+          .value.trim();
+
+        // Page 1
+        document.getElementById("dateField").innerHTML =
+          `Date : <strong>${offerDate}</strong>`;
+        document.getElementById("recipientField").innerHTML =
+          `${name}<br>${address}`;
+        document.getElementById("nameSalutation").innerHTML =
+          `<strong>${name}</strong>`;
+        document.getElementById("pos1").innerHTML =
+          `<strong>${position}</strong>`;
+        document.getElementById("join1").innerHTML =
+          `<strong>${joiningDate}</strong>`;
+        document.getElementById("acceptBy1").innerHTML =
+          `<strong>${acceptByDate}</strong>`;
+
+        // Annexure A
+        document.getElementById("nameA").innerHTML = `<strong>${name}</strong>`;
+        document.getElementById("posA").innerHTML =
+          `<strong>${position}</strong>`;
+        document.getElementById("nameAcceptA").innerHTML =
+          `<strong>${name}</strong>`;
+
+        // Annexure B
+        document.getElementById("nameAcceptB").innerHTML =
+          `<strong>${name}</strong>`;
+
+        // Compensation values (no bold on numbers, only on labels above)
+        document.getElementById("basicM").textContent =
+          document.getElementById("basicMonth").value.trim() || "0";
+        document.getElementById("basicY").textContent =
+          document.getElementById("basicYear").value.trim() || "0";
+        document.getElementById("hraM").textContent =
+          document.getElementById("hraMonth").value.trim() || "0";
+        document.getElementById("hraY").textContent =
+          document.getElementById("hraYear").value.trim() || "0";
+        document.getElementById("ltaM").textContent =
+          document.getElementById("ltaMonth").value.trim() || "0";
+        document.getElementById("ltaY").textContent =
+          document.getElementById("ltaYear").value.trim() || "0";
+        document.getElementById("specialM").textContent =
+          document.getElementById("specialMonth").value.trim() || "0";
+        document.getElementById("specialY").textContent =
+          document.getElementById("specialYear").value.trim() || "0";
+        document.getElementById("grossM").textContent =
+          document.getElementById("grossMonth").value.trim() || "0";
+        document.getElementById("grossY").textContent =
+          document.getElementById("grossYear").value.trim() || "0";
+        document.getElementById("fixedM").textContent =
+          document.getElementById("fixedMonth").value.trim() || "0";
+        document.getElementById("fixedY").textContent =
+          document.getElementById("fixedYear").value.trim() || "0";
+        document.getElementById("totalM").textContent =
+          document.getElementById("totalMonth").value.trim() || "0";
+        document.getElementById("totalY").textContent =
+          document.getElementById("totalYear").value.trim() || "0";
+      }
+
+      function printLetter() {
+        updateLetter();
+        window.print();
+      }
+
+      document
+        .querySelectorAll(".controls input, .controls textarea")
+        .forEach((el) => {
+          el.addEventListener("input", updateLetter);
+        });
+
+      window.onload = updateLetter;
+    </script>
+  </body>
+</html>
